@@ -1,0 +1,39 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.melendez.kata"
+    },
+    "jhipsterVersion": "6.10.4",
+    "applicationType": "monolith",
+    "baseName": "Kata",
+    "packageName": "com.melendez.kata",
+    "packageFolder": "com/melendez/kata",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NmVkMTRmOWQxNWZlNmVkNTc5Y2FmYzMyOWI4M2YzYzJkZGE1MzZiN2IwMmY0NTVmZTljNDkzZTg0ODM4ZjBlMThlMTRkMDQzNjFiNDE4NWRlYWI0MGYzMTBlZTJhZGYzYjI0MTlhYzhkNWVjOGQxNmE2YjZmOTBiYTBjYjNmZDI=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1604915825622,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}
