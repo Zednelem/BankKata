@@ -60,16 +60,20 @@ class BankResourceIT {
      * Test withdrawMoney
      */
     @Test
-    public void testWithdrawMoney() throws Exception {
-        restMockMvc.perform(post("/api/bank/withdraw-money"))
-            .andExpect(status().isOk());
+    void testWithdrawMoney() throws Exception {
+        when(bankService.withdraw(1000.05)).thenReturn("OPERATION_MOCKED_ID");
+
+        restMockMvc.perform(
+            post("/api/bank/withdraw-money")
+                .contentType(APPLICATION_JSON_UTF8).content("1000.05"))
+            .andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.content().string("\"OPERATION_MOCKED_ID\""));
     }
 
     /**
      * Test getOperationList
      */
     @Test
-    public void testGetOperationList() throws Exception {
+    void testGetOperationList() throws Exception {
         restMockMvc.perform(get("/api/bank/get-operation-list"))
             .andExpect(status().isOk());
     }
