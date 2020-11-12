@@ -1,0 +1,12 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { BankRoutingModule } from './bank-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+@NgModule({
+  declarations: [DashboardComponent],
+  imports: [CommonModule, BankRoutingModule, FormsModule, ReactiveFormsModule],
+})
+export class BankModule {}

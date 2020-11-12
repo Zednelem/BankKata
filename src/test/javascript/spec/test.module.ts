@@ -14,6 +14,8 @@ import { MockActivatedRoute, MockRouter } from './helpers/mock-route.service';
 import { MockActiveModal } from './helpers/mock-active-modal.service';
 import { MockAlertService } from './helpers/mock-alert.service';
 import { MockEventManager } from './helpers/mock-event-manager.service';
+import { BankService } from 'app/core/bank/bank.service';
+import { MockBankService } from './helpers/mock-bank.service';
 
 @NgModule({
   providers: [
@@ -60,6 +62,10 @@ import { MockEventManager } from './helpers/mock-event-manager.service';
     {
       provide: LocalStorageService,
       useValue: null,
+    },
+    {
+      provide: BankService,
+      useClass: MockBankService,
     },
   ],
   imports: [HttpClientTestingModule],
