@@ -19,10 +19,10 @@
                 </form>
                 <ng-container [ngSwitch]="state$ | async">
                 <div class="alert alert-info" *ngSwitchCase="States.LOADING">The transfert is currently Loading ...</div>
-                <div class="alert alert-info" *ngSwitchCase="States.SUCCESS">
+                <div class="alert alert-success" *ngSwitchCase="States.SUCCESS">
                     <span>Your deposit of {{ depositAmountvalue | number :'0.2-2' }} $ has been taken in account.</span>
                 </div>
-                <div class="alert alert-error" *ngSwitchCase="States.ERROR">
+                <div class="alert alert-danger" *ngSwitchCase="States.ERROR">
                     <span>Error while deposing {{ depositAmountvalue | number :'0.2-2' }} $ into your account. Try again later</span>
                 </div>
                 </ng-container>

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Account } from 'app/core/user/account.model';
-import { ReplaySubject, Subscription } from 'rxjs';
+import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { BankService } from 'app/core/bank/bank.service';
+import { takeUntil } from 'rxjs/operators';
 
 enum State {
   INIT = 'INIT',
@@ -18,7 +19,9 @@ enum State {
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   account: Account | null = null;
   authSubscription?: Subscription;
 
@@ -39,20 +42,31 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    this.authSubscription = this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
   }
 
   deposit(): void {
     this.stateHasChanged(State.LOADING);
     this.depositAmountvalue = this.formGroup.value.depositAmount;
-    this.bankService.deposeMoney(this.formGroup.value.depositAmount).subscribe(
-      () => this.stateHasChanged(State.SUCCESS),
-      () => this.stateHasChanged(State.ERROR)
-    );
+    this.bankService
+      .deposeMoney(this.formGroup.value.depositAmount)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => this.stateHasChanged(State.SUCCESS),
+        () => this.stateHasChanged(State.ERROR)
+      );
   }
 
   stateHasChanged(newState: State): void {
     this.state = newState;
     this.state$.next(this.state);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
