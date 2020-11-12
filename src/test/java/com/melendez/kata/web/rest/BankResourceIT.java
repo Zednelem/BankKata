@@ -12,10 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see BankResource
  */
 @SpringBootTest(classes = KataApp.class)
-public class BankResourceIT {
+class BankResourceIT {
 
     public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
         MediaType.APPLICATION_JSON.getSubtype(), StandardCharsets.UTF_8);
@@ -49,13 +47,13 @@ public class BankResourceIT {
      * Test depositMoney
      */
     @Test
-    public void testDepositMoney() throws Exception {
+    void testDepositMoney() throws Exception {
         when(bankService.depositMoney(1000.05)).thenReturn("OPERATION_MOCKED_ID");
 
         restMockMvc.perform(
             post("/api/bank/deposit-money")
                 .contentType(APPLICATION_JSON_UTF8).content("1000.05"))
-            .andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().string("OPERATION_MOCKED_ID"));
+            .andExpect(status().isCreated()).andExpect(MockMvcResultMatchers.content().string("\"OPERATION_MOCKED_ID\""));
     }
 
     /**
