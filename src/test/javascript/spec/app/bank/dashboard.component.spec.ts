@@ -6,6 +6,7 @@ import { DashboardComponent } from 'app/bank/dashboard/dashboard.component';
 import { BankService } from 'app/core/bank/bank.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockBankService } from '../../helpers/mock-bank.service';
+import { Statement } from '../../../../../main/webapp/app/bank/statements/statements.component';
 
 describe('Component Tests', () => {
   describe('Dashboard Component', () => {
@@ -36,6 +37,30 @@ describe('Component Tests', () => {
 
       // THEN
       expect(accountService.getAuthenticationState).toHaveBeenCalled();
+    });
+
+    it('Should call bankService.getOperations on init', () => {
+      // WHEN
+      bankService.setFetchOperationsResponse(
+        new Array<Statement>(
+          {
+            id: 0,
+            amount: 100,
+            date: new Date(1234567890),
+          },
+          {
+            id: 1,
+            amount: -100,
+            date: new Date(9876543210),
+          }
+        )
+      );
+
+      comp.ngOnInit();
+
+      // THEN
+      expect(bankService.fetchOperationsSpy).toBeCalled();
+      expect(bankService.fetchOperationsSpy).toBeCalledTimes(1);
     });
 
     it('Should call bankService.deposeMoney when user has validated deposit is called', () => {

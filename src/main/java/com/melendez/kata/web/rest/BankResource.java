@@ -43,9 +43,9 @@ public class BankResource {
     /**
     * GET getOperationList
     */
-    @GetMapping("/get-operation-list")
-    public String getOperationList() {
-        return "getOperationList";
+    @GetMapping("/fetch-statements")
+    public String getStatements() {
+        return "[{\"id\":1234567890,\"amount\":100,\"date\":1204124}]";
     }
 
 }

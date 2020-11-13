@@ -1,5 +1,6 @@
 <p class="row h2">Please find the list of your statements:</p>
-<table class="table">
+<span *ngIf="!data || data.length<=0">Content of your operations are currently loading</span>
+<table class="table" *ngIf="data && data.length>0">
     <caption>Latest operations on your account</caption>
     <thead>
     <tr>
@@ -9,9 +10,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let statement of statements;index as i">
-        <th scope="row">{{i}}</th>
-        <td>{{statement.amount | number: "2.2"}}</td>
+    <tr *ngFor="let statement of data">
+        <th scope="row">{{statement.id}}</th>
+        <td>{{statement.amount | number: "2.2"}} $</td>
         <td>{{ statement.date | date }}</td>
     </tr>
     </tbody>

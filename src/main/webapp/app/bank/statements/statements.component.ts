@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 export interface Statement {
+  id: number;
   amount: number;
   date: Date;
 }
@@ -9,38 +10,12 @@ export interface Statement {
   selector: 'jhi-statements',
   templateUrl: './statements.component.html',
   styleUrls: ['./statements.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatementsComponent implements OnInit {
-  statements: Array<Statement> = new Array<Statement>(
-    {
-      amount: 42,
-      date: new Date(),
-    },
-    {
-      amount: 123,
-      date: new Date(213),
-    },
-    {
-      amount: 23423,
-      date: new Date(1000),
-    },
-    {
-      amount: 63,
-      date: new Date(),
-    },
-    {
-      amount: -42,
-      date: new Date(),
-    },
-    {
-      amount: +42,
-      date: new Date(),
-    },
-    {
-      amount: 42,
-      date: new Date(),
-    }
-  );
+  @Input()
+  data: [Statement] | null | undefined;
+
   constructor() {}
 
   ngOnInit(): void {}

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
-import { FormBuilder } from '@angular/forms';
 import { Account } from 'app/core/user/account.model';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { BankService } from 'app/core/bank/bank.service';
 import { takeUntil } from 'rxjs/operators';
 import { OperationComponentWording } from 'app/bank/operation/operation.component';
+import { Statement } from 'app/bank/statements/statements.component';
 
 export enum State {
   INIT = 'INIT',
@@ -51,8 +51,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     errorMessagePrefix: 'Error while withdrawing ',
     errorMessageSuffix: ' $ from your account. Try again later',
   };
+  statements: [Statement] | undefined;
+  statements$: Subject<[Statement]> = new Subject<[Statement]>();
 
-  constructor(public accountService: AccountService, private formBuilder: FormBuilder, private bankService: BankService) {
+  constructor(public accountService: AccountService, private bankService: BankService) {
     this.depositState$.next(State.INIT);
     this.withdrawState$.next(State.INIT);
   }
@@ -62,6 +64,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => (this.account = account));
+    this.bankService
+      .fetchOperations()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((statements: [Statement]) => {
+        this.statements = statements;
+        this.statements$.next(this.statements);
+      });
   }
 
   ngOnDestroy(): void {
