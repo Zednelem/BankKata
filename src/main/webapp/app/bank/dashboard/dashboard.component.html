@@ -9,7 +9,7 @@
         <ng-container *ngIf="accountService.getAuthenticationState()">
             <jhi-operation [wording]="depositWording" (userHasValidated)="onUserHasValidatedDeposit($event)" [state]="(depositState$ |async)"></jhi-operation>
                 <span >ici un texte</span>
-            <jhi-operation [wording]="witdrawWording" (userHasValidated)="onUserHasValidatedWithdraw($event)" [state]="(withdrawState$ |async)"></jhi-operation>
+            <jhi-operation [wording]="withdrawWording" (userHasValidated)="onUserHasValidatedWithdraw($event)" [state]="(withdrawState$ |async)"></jhi-operation>
         </ng-container>
     </div>
 </div>

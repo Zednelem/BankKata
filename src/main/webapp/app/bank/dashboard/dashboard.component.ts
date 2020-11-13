@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     errorMessagePrefix: 'Error while deposing ',
     errorMessageSuffix: ' $ into your account. Try again later',
   };
-  witdrawWording: OperationComponentWording = {
+  withdrawWording: OperationComponentWording = {
     title: 'How much would you like to withdraw?',
     inputLabel: 'Please set the amount to withdraw',
     submitButton: 'Validate',
