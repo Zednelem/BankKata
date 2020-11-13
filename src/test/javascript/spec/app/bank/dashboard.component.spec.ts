@@ -52,14 +52,6 @@ describe('Component Tests', () => {
     it('Should call bankService.deposeMoney and set error state', done => {
       // WHEN
 
-      bankService.setDepositMoneyDoThrow(new Error('Error mock'));
-
-      comp.onUserHasValidatedDeposit(-123);
-
-      // THEN
-      expect(bankService.deposeMoneySpy).toBeCalledWith(-123);
-      expect(bankService.deposeMoneySpy).toBeCalledTimes(1);
-
       let counter = 0;
       comp.depositState$.subscribe(data => {
         if (counter === 0) {
@@ -74,6 +66,14 @@ describe('Component Tests', () => {
         }
         counter++;
       });
+
+      bankService.setDepositMoneyDoThrow(new Error('Error mock'));
+
+      comp.onUserHasValidatedDeposit(-123);
+
+      // THEN
+      expect(bankService.deposeMoneySpy).toBeCalledWith(-123);
+      expect(bankService.deposeMoneySpy).toBeCalledTimes(1);
     }, 1500);
   });
 });
