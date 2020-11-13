@@ -1,0 +1,18 @@
+<p class="row h2">Please find the list of your statements:</p>
+<table class="table">
+    <caption>Latest operations on your account</caption>
+    <thead>
+    <tr>
+        <th id="table-operation-id-header">#</th>
+        <th id="table-operation-amount-header">Amount</th>
+        <th id="table-operation-date-header">Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let statement of statements;index as i">
+        <th scope="row">{{i}}</th>
+        <td>{{statement.amount | number: "2.2"}}</td>
+        <td>{{ statement.date | date }}</td>
+    </tr>
+    </tbody>
+</table>

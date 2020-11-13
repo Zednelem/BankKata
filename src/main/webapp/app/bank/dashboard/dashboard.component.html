@@ -10,6 +10,7 @@
             <jhi-operation [wording]="depositWording" (userHasValidated)="onUserHasValidatedDeposit($event)" [state]="(depositState$ |async)"></jhi-operation>
                 <span >ici un texte</span>
             <jhi-operation [wording]="withdrawWording" (userHasValidated)="onUserHasValidatedWithdraw($event)" [state]="(withdrawState$ |async)"></jhi-operation>
+            <jhi-statements></jhi-statements>
         </ng-container>
     </div>
 </div>
