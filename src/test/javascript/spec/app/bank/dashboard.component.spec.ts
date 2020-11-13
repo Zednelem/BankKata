@@ -49,6 +49,17 @@ describe('Component Tests', () => {
       expect(bankService.deposeMoneySpy).toBeCalledTimes(1);
     });
 
+    it('Should call bankService.withdrawMoney when user has validated deposit is called', () => {
+      // WHEN
+
+      bankService.setWithdrawMoneyResponse('SuccessOperationId');
+      comp.onUserHasValidatedWithdraw(123);
+
+      // THEN
+      expect(bankService.withdrawMoneySpy).toBeCalledWith(123);
+      expect(bankService.withdrawMoneySpy).toBeCalledTimes(1);
+    });
+
     it('Should call bankService.deposeMoney and set error state', done => {
       // WHEN
 
@@ -74,6 +85,33 @@ describe('Component Tests', () => {
       // THEN
       expect(bankService.deposeMoneySpy).toBeCalledWith(-123);
       expect(bankService.deposeMoneySpy).toBeCalledTimes(1);
+    }, 1500);
+
+    it('Should call bankService.withdrawMoney and set error state', done => {
+      // WHEN
+
+      let counter = 0;
+      comp.withdrawState$.subscribe(data => {
+        if (counter === 0) {
+          expect(data).toEqual('INIT');
+        }
+        if (counter === 1) {
+          expect(data).toEqual('LOADING');
+        }
+        if (counter === 2) {
+          expect(data).toEqual('ERROR');
+          done();
+        }
+        counter++;
+      });
+
+      bankService.setWithdrawMoneyDoThrow(new Error('Error mock'));
+
+      comp.onUserHasValidatedWithdraw(-123);
+
+      // THEN
+      expect(bankService.withdrawMoneySpy).toBeCalledWith(-123);
+      expect(bankService.withdrawMoneySpy).toBeCalledTimes(1);
     }, 1500);
   });
 });
