@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Account } from 'app/core/user/account.model';
-import { ReplaySubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { BankService } from 'app/core/bank/bank.service';
 import { takeUntil } from 'rxjs/operators';
 
-enum State {
+export enum State {
   INIT = 'INIT',
   LOADING = 'LOADING',
   ERROR = 'ERROR',
@@ -17,10 +17,14 @@ enum State {
   selector: 'jhi-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  //changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  depositState$: BehaviorSubject<State> = new BehaviorSubject<State>(State.INIT);
+
+  depositState: State = State.INIT;
 
   account: Account | null = null;
   authSubscription?: Subscription;
@@ -39,6 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this.depositAmountvalue = 0;
     this.state$.next(State.INIT);
+    this.depositState$.next(State.INIT);
   }
 
   ngOnInit(): void {
@@ -68,5 +73,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  onUserHasValidatedDeposit($event: number): void {
+    this.depositStateHasChanged(State.LOADING);
+    this.bankService
+      .deposeMoney($event)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => this.depositStateHasChanged(State.SUCCESS),
+        () => this.depositStateHasChanged(State.ERROR)
+      );
+  }
+
+  depositStateHasChanged(newState: State): void {
+    this.depositState = newState;
+    this.depositState$.next(this.depositState);
   }
 }

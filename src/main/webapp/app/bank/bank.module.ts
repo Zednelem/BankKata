@@ -4,9 +4,10 @@ import { CommonModule } from '@angular/common';
 import { BankRoutingModule } from './bank-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OperationComponent } from './operation/operation.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, OperationComponent],
   imports: [CommonModule, BankRoutingModule, FormsModule, ReactiveFormsModule],
 })
 export class BankModule {}

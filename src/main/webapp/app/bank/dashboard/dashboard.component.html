@@ -6,7 +6,7 @@
     <div class="col-md-9">
         <h1 class="display-4">Welcome to your Bank Account</h1>
 
-        <ng-container *ngIf="accountService.getAuthenticationState()" >
+        <ng-container *ngIf="accountService.getAuthenticationState()">
             <div>
                 <p class="lead">How much would you like to deposit?</p>
 
@@ -18,16 +18,16 @@
                     <button type="submit" class="btn-primary" [disabled]="!formGroup.valid" (click)="deposit()">Validate</button>
                 </form>
                 <ng-container [ngSwitch]="state$ | async">
-                <div class="alert alert-info" *ngSwitchCase="States.LOADING">The transfert is currently Loading ...</div>
-                <div class="alert alert-success" *ngSwitchCase="States.SUCCESS">
-                    <span>Your deposit of {{ depositAmountvalue | number :'0.2-2' }} $ has been taken in account.</span>
-                </div>
-                <div class="alert alert-danger" *ngSwitchCase="States.ERROR">
-                    <span>Error while deposing {{ depositAmountvalue | number :'0.2-2' }} $ into your account. Try again later</span>
-                </div>
+                    <div class="alert alert-info" *ngSwitchCase="States.LOADING">The transfert is currently Loading ...</div>
+                    <div class="alert alert-success" *ngSwitchCase="States.SUCCESS">
+                        <span>Your deposit of {{ depositAmountvalue | number :'0.2-2' }} $ has been taken in account.</span>
+                    </div>
+                    <div class="alert alert-danger" *ngSwitchCase="States.ERROR">
+                        <span>Error while deposing {{ depositAmountvalue | number :'0.2-2' }} $ into your account. Try again later</span>
+                    </div>
                 </ng-container>
             </div>
-
+            <jhi-operation (userHasValidated)="onUserHasValidatedDeposit($event)" [state]="(depositState$ |async)">
         </ng-container>
     </div>
 </div>
