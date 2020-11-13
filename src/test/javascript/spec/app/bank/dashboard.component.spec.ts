@@ -38,12 +38,11 @@ describe('Component Tests', () => {
       expect(accountService.getAuthenticationState).toHaveBeenCalled();
     });
 
-    it('Should call bankService.deposeMoney when it deposit is called', () => {
+    it('Should call bankService.deposeMoney when user has validated deposit is called', () => {
       // WHEN
 
-      comp.formGroup.value.depositAmount = 123;
       bankService.setDepositMoneyResponse('SuccessOperationId');
-      comp.deposit();
+      comp.onUserHasValidatedDeposit(123);
 
       // THEN
       expect(bankService.deposeMoneySpy).toBeCalledWith(123);
@@ -53,17 +52,16 @@ describe('Component Tests', () => {
     it('Should call bankService.deposeMoney and set error state', done => {
       // WHEN
 
-      comp.formGroup.value.depositAmount = 123;
       bankService.setDepositMoneyDoThrow(new Error('Error mock'));
 
-      comp.deposit();
+      comp.onUserHasValidatedDeposit(-123);
 
       // THEN
-      expect(bankService.deposeMoneySpy).toBeCalledWith(123);
+      expect(bankService.deposeMoneySpy).toBeCalledWith(-123);
       expect(bankService.deposeMoneySpy).toBeCalledTimes(1);
 
       let counter = 0;
-      comp.state$.subscribe(data => {
+      comp.depositState$.subscribe(data => {
         if (counter === 0) {
           expect(data).toEqual('INIT');
         }

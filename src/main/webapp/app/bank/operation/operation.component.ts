@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { State } from 'app/bank/dashboard/dashboard.component';
@@ -7,9 +7,9 @@ import { State } from 'app/bank/dashboard/dashboard.component';
   selector: 'jhi-operation',
   templateUrl: './operation.component.html',
   styleUrls: ['./operation.component.scss'],
-  //changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OperationComponent implements OnInit, OnChanges {
+export class OperationComponent {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input('state')
@@ -32,12 +32,6 @@ export class OperationComponent implements OnInit, OnChanges {
       amount: ['0.00', [Validators.required, Validators.min(0)]],
     });
     this.amount = 0;
-  }
-
-  ngOnInit(): void {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    //alert(changes);
   }
 
   run(): void {
