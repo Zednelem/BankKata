@@ -25,9 +25,9 @@ describe('Service Tests', () => {
       httpMock.verify();
     });
 
-    describe('Service methods', () => {
+    describe('Service deposit method', () => {
       it('should call correct URL', () => {
-        service.deposeMoney(0).subscribe();
+        service.deposeMoney(10).subscribe();
 
         const req = httpMock.expectOne({ method: 'POST' });
         const resourceUrl = SERVER_API_URL + 'api/bank';
@@ -50,6 +50,43 @@ describe('Service Tests', () => {
         let expectedResult = 0;
 
         service.deposeMoney(-100).subscribe(null, (error: HttpErrorResponse) => {
+          expectedResult = error.status;
+        });
+
+        const req = httpMock.expectOne({ method: 'POST' });
+        req.flush('Invalid request parameters', {
+          status: 404,
+          statusText: 'Bad Request',
+        });
+        expect(expectedResult).toEqual(404);
+      });
+    });
+
+    describe('Service withdraw method', () => {
+      it('should call correct URL', () => {
+        service.withdrawMoney(10).subscribe();
+
+        const req = httpMock.expectOne({ method: 'POST' });
+        const resourceUrl = SERVER_API_URL + 'api/bank';
+        expect(req.request.url).toEqual(`${resourceUrl}/withdraw-money`);
+      });
+
+      it('should return idOperation', () => {
+        let expectedResult: string | undefined;
+
+        service.withdrawMoney(100).subscribe(receivedId => {
+          expectedResult = receivedId;
+        });
+
+        const req = httpMock.expectOne({ method: 'POST' });
+        req.flush('idOperation');
+        expect(expectedResult).toEqual('idOperation');
+      });
+
+      it('should propagate not found response', () => {
+        let expectedResult = 0;
+
+        service.withdrawMoney(100).subscribe(null, (error: HttpErrorResponse) => {
           expectedResult = error.status;
         });
 

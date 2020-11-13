@@ -1,8 +1,6 @@
 package com.melendez.kata.web.rest;
 
 import com.melendez.kata.service.BankService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +14,6 @@ import java.net.URISyntaxException;
 @RequestMapping("/api/bank")
 public class BankResource {
 
-    private final Logger log = LoggerFactory.getLogger(BankResource.class);
     private final BankService bankService;
 
     public BankResource(BankService bankService){
@@ -37,8 +34,10 @@ public class BankResource {
     * POST withdrawMoney
     */
     @PostMapping("/withdraw-money")
-    public String withdrawMoney() {
-        return "withdrawMoney";
+    public ResponseEntity<String>  withdrawMoney(@RequestBody String amount) throws URISyntaxException {
+        String operationId = bankService.withdraw(Double.parseDouble(amount));
+        return ResponseEntity.created(new URI("api/bank/operations/"+operationId))
+            .body("\"" + operationId +"\"");
     }
 
     /**

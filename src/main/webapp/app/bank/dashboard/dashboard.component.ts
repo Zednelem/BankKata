@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Account } from 'app/core/user/account.model';
-import { ReplaySubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { BankService } from 'app/core/bank/bank.service';
 import { takeUntil } from 'rxjs/operators';
+import { OperationComponentWording } from 'app/bank/operation/operation.component';
 
-enum State {
+export enum State {
   INIT = 'INIT',
   LOADING = 'LOADING',
   ERROR = 'ERROR',
@@ -22,23 +23,38 @@ enum State {
 export class DashboardComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  depositState$: BehaviorSubject<State> = new BehaviorSubject<State>(State.INIT);
+  depositState: State = State.INIT;
+
+  withdrawState$: BehaviorSubject<State> = new BehaviorSubject<State>(State.INIT);
+  withdrawState: State = State.INIT;
+
   account: Account | null = null;
   authSubscription?: Subscription;
-
-  formGroup: FormGroup;
-
-  depositAmountvalue: number;
-
-  public States = State;
-  private state: State = State.INIT;
-  public state$: ReplaySubject<State> = new ReplaySubject<State>();
+  depositWording: OperationComponentWording = {
+    title: 'How much would you like to deposit?',
+    inputLabel: 'Please set the amount to deposit',
+    submitButton: 'Validate',
+    successMessagePrefix: 'Your deposit of ',
+    successMessageSuffix: ' $ has been taken in account.',
+    loadingMessage: 'The transfer is currently Loading ...',
+    errorMessagePrefix: 'Error while deposing ',
+    errorMessageSuffix: ' $ into your account. Try again later',
+  };
+  withdrawWording: OperationComponentWording = {
+    title: 'How much would you like to withdraw?',
+    inputLabel: 'Please set the amount to withdraw',
+    submitButton: 'Validate',
+    successMessagePrefix: 'Your withdrawal of ',
+    successMessageSuffix: ' $ has been taken in account.',
+    loadingMessage: 'The transfer is currently Loading ...',
+    errorMessagePrefix: 'Error while withdrawing ',
+    errorMessageSuffix: ' $ from your account. Try again later',
+  };
 
   constructor(public accountService: AccountService, private formBuilder: FormBuilder, private bankService: BankService) {
-    this.formGroup = this.formBuilder.group({
-      depositAmount: ['0.00', [Validators.required, Validators.min(0)]],
-    });
-    this.depositAmountvalue = 0;
-    this.state$.next(State.INIT);
+    this.depositState$.next(State.INIT);
+    this.withdrawState$.next(State.INIT);
   }
 
   ngOnInit(): void {
@@ -48,25 +64,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(account => (this.account = account));
   }
 
-  deposit(): void {
-    this.stateHasChanged(State.LOADING);
-    this.depositAmountvalue = this.formGroup.value.depositAmount;
-    this.bankService
-      .deposeMoney(this.formGroup.value.depositAmount)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        () => this.stateHasChanged(State.SUCCESS),
-        () => this.stateHasChanged(State.ERROR)
-      );
-  }
-
-  stateHasChanged(newState: State): void {
-    this.state = newState;
-    this.state$.next(this.state);
-  }
-
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  onUserHasValidatedDeposit($event: number): void {
+    this.depositStateHasChanged(State.LOADING);
+    this.bankService
+      .deposeMoney($event)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => this.depositStateHasChanged(State.SUCCESS),
+        () => this.depositStateHasChanged(State.ERROR)
+      );
+  }
+
+  private depositStateHasChanged(newState: State): void {
+    this.depositState = newState;
+    this.depositState$.next(this.depositState);
+  }
+
+  onUserHasValidatedWithdraw($event: number): void {
+    this.withdrawStateHasChanged(State.LOADING);
+    this.bankService
+      .withdrawMoney($event)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        () => this.withdrawStateHasChanged(State.SUCCESS),
+        () => this.withdrawStateHasChanged(State.ERROR)
+      );
+  }
+
+  private withdrawStateHasChanged(newState: State): void {
+    this.withdrawState = newState;
+    this.withdrawState$.next(this.withdrawState);
   }
 }

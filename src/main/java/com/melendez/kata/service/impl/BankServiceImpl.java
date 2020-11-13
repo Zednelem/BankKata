@@ -6,8 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Random;
-
+/**
+ * Fake implementation
+ */
 @Service
 @Transactional
 public class BankServiceImpl implements BankService {
@@ -19,7 +20,16 @@ public class BankServiceImpl implements BankService {
         if (amount<=0 ){
             throw new IllegalArgumentException("Amount deposit should be strictly positive: amount queried "+amount);
         }
-        log.debug("Not Implemented in database. Amount deposed: {}",amount);
+        log.warn("Not Implemented in database. Amount deposed: {}",amount);
+        return "OPERATION_ID";
+    }
+
+    @Override
+    public String withdraw(double amount) {
+        if (amount<=0 ){
+            throw new IllegalArgumentException("Amount withdrawal should be strictly positive: amount queried "+amount);
+        }
+        log.warn("Not Implemented in database. Amount withdrawn: {}",amount);
         return "OPERATION_ID";
     }
 }
