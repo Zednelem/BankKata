@@ -5,6 +5,7 @@ import { Account } from 'app/core/user/account.model';
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import { BankService } from 'app/core/bank/bank.service';
 import { takeUntil } from 'rxjs/operators';
+import { OperationComponentWording } from 'app/bank/operation/operation.component';
 
 export enum State {
   INIT = 'INIT',
@@ -30,6 +31,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   account: Account | null = null;
   authSubscription?: Subscription;
+  depositWording: OperationComponentWording = {
+    title: 'How much would you like to deposit?',
+    inputLabel: 'Please set the amount to deposit',
+    submitButton: 'Validate',
+    successMessagePrefix: 'Your deposit of ',
+    successMessageSuffix: ' $ has been taken in account.',
+    loadingMessage: 'The transfer is currently Loading ...',
+    errorMessagePrefix: 'Error while deposing ',
+    errorMessageSuffix: ' $ into your account. Try again later',
+  };
+  witdrawWording: OperationComponentWording = {
+    title: 'How much would you like to withdraw?',
+    inputLabel: 'Please set the amount to withdraw',
+    submitButton: 'Validate',
+    successMessagePrefix: 'Your withdrawal of ',
+    successMessageSuffix: ' $ has been taken in account.',
+    loadingMessage: 'The transfer is currently Loading ...',
+    errorMessagePrefix: 'Error while withdrawing ',
+    errorMessageSuffix: ' $ from your account. Try again later',
+  };
 
   constructor(public accountService: AccountService, private formBuilder: FormBuilder, private bankService: BankService) {
     this.depositState$.next(State.INIT);

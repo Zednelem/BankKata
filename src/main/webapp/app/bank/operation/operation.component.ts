@@ -3,6 +3,17 @@ import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { State } from 'app/bank/dashboard/dashboard.component';
 
+export interface OperationComponentWording {
+  title: string;
+  inputLabel: string;
+  submitButton: string;
+  successMessagePrefix: string;
+  successMessageSuffix: string;
+  loadingMessage: string;
+  errorMessagePrefix: string;
+  errorMessageSuffix: string;
+}
+
 @Component({
   selector: 'jhi-operation',
   templateUrl: './operation.component.html',
@@ -19,6 +30,9 @@ export class OperationComponent {
 
   @Output()
   userHasValidated: EventEmitter<number> = new EventEmitter();
+
+  @Input()
+  wording: OperationComponentWording | undefined;
 
   state: State = State.INIT;
 
