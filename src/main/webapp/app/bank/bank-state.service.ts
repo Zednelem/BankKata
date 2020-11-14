@@ -36,7 +36,7 @@ export class BankStateService {
       errorMessageSuffix: ' $ into your account. Try again later',
     };
   }
-  public geWithdrawWording(): OperationComponentWording {
+  public getWithdrawWording(): OperationComponentWording {
     return {
       title: 'How much would you like to withdraw?',
       inputLabel: 'Please set the amount to withdraw',

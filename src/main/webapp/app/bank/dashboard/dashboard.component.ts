@@ -6,7 +6,7 @@ import { BankService } from 'app/core/bank/bank.service';
 import { takeUntil } from 'rxjs/operators';
 import { OperationComponentWording } from 'app/bank/operation/operation.component';
 import { BankStateService, State } from 'app/bank/bank-state.service';
-import { Statement, StatementType } from 'app/core/bank/statement.model';
+import { StatementType } from 'app/core/bank/statement.model';
 
 @Component({
   selector: 'jhi-dashboard',
@@ -22,9 +22,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   depositWording: OperationComponentWording;
   withdrawWording: OperationComponentWording;
 
-  constructor(public accountService: AccountService, private bankService: BankService, public stateService: BankStateService) {
+  constructor(public accountService: AccountService, public bankService: BankService, public stateService: BankStateService) {
     this.depositWording = stateService.getDepositWording();
-    this.withdrawWording = stateService.geWithdrawWording();
+    this.withdrawWording = stateService.getWithdrawWording();
   }
 
   ngOnInit(): void {
@@ -32,13 +32,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => (this.account = account));
-    this.bankService
-      .fetchOperations()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((statements: [Statement]) => {
-        this.statements = statements;
-        this.statements$.next(this.statements);
-      });
+    this.bankService.fetchOperations();
   }
 
   ngOnDestroy(): void {
