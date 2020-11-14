@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
+    <div class="col-md-3 alert alert-secondary">
+        Les dépots et retraits de moins de 10 $ ne sont pas autorisé<br/>
     </div>
 
     <div class="col-md-6">
@@ -10,7 +10,7 @@
             <jhi-operation [wording]="stateService.getDepositWording()"
                            (userHasValidated)="onUserHasValidatedDeposit($event)"
                            [state]="(stateService.depositState$ |async)"></jhi-operation>
-                <span >ici un texte</span>
+            <span>ici un texte</span>
             <jhi-operation [wording]="stateService.getWithdrawWording()"
                            (userHasValidated)="onUserHasValidatedWithdraw($event)"
                            [state]="(stateService.withdrawState$ |async)"></jhi-operation>

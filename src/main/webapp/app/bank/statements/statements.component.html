@@ -1,6 +1,7 @@
 <p class="row h2">Please find the list of your statements:</p>
-<span *ngIf="!data || data.length<=0">Content of your operations are currently loading</span>
-<table class="table" *ngIf="data && data.length>0">
+<span *ngIf="!data">Content of your operations are currently loading</span>
+<span *ngIf="data && !data.length">You have no operations on your account</span>
+<table *ngIf="data && data.length" class="table">
     <caption>Latest operations on your account</caption>
     <thead>
     <tr>
