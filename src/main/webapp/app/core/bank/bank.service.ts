@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
 import { SERVER_API_URL } from 'app/app.constants';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Statement } from 'app/bank/statements/statements.component';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Statement } from 'app/core/bank/statement.model';
 
 @Injectable({ providedIn: 'root' })
 export class BankService {
   url = SERVER_API_URL + 'api/bank';
-  depositEndpoint = 'deposit-money';
-  withdrawalEndpoint = 'withdraw-money';
-  fetchStatementsEndpoint = 'fetch-statements';
+  depositEndpoint = 'actions/deposit-money';
+  withdrawalEndpoint = 'actions/withdraw-money';
+  fetchStatementsEndpoint = 'statements';
+
+  statements: [Statement] | undefined;
+  statements$: BehaviorSubject<[Statement]> = new BehaviorSubject<[Statement]>([]);
+
   constructor(private http: HttpClient) {}
 
-  deposeMoney(amount: number): Observable<string> {
-    return this.http.post<string>(`${this.url}/${this.depositEndpoint}`, `${amount}`);
+  deposeMoney(statement: Statement): Observable<Statement> {
+    return this.http.post<Statement>(`${this.url}/${this.depositEndpoint}`, statement);
   }
 
-  withdrawMoney(amount: number): Observable<string> {
-    return this.http.post<string>(`${this.url}/${this.withdrawalEndpoint}`, `${amount}`);
+  withdrawMoney(statement: Statement): Observable<Statement> {
+    return this.http.post<Statement>(`${this.url}/${this.withdrawalEndpoint}`, statement);
   }
 
   fetchOperations(): Observable<[Statement]> {

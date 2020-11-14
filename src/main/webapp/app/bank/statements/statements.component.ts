@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-
-export interface Statement {
-  id: number;
-  amount: number;
-  date: Date;
-}
+import { Statement, StatementType } from 'app/core/bank/statement.model';
 
 @Component({
   selector: 'jhi-statements',
@@ -15,6 +10,8 @@ export interface Statement {
 export class StatementsComponent implements OnInit {
   @Input()
   data: [Statement] | null | undefined;
+
+  StatementType = StatementType;
 
   constructor() {}
 
