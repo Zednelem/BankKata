@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SessionStorageService, LocalStorageService } from 'ngx-webstorage';
-import { JhiDataUtils, JhiDateUtils, JhiEventManager, JhiAlertService, JhiParseLinks } from 'ng-jhipster';
+import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
+import { JhiAlertService, JhiDataUtils, JhiDateUtils, JhiEventManager, JhiParseLinks } from 'ng-jhipster';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginModalService } from 'app/core/login/login-modal.service';
@@ -16,6 +16,8 @@ import { MockAlertService } from './helpers/mock-alert.service';
 import { MockEventManager } from './helpers/mock-event-manager.service';
 import { BankService } from 'app/core/bank/bank.service';
 import { MockBankService } from './helpers/mock-bank.service';
+import { TimeProviderService } from 'app/core/system/time-provider.service';
+import { MockTimeProviderService } from './helpers/mock-time-provider.service';
 
 @NgModule({
   providers: [
@@ -66,6 +68,10 @@ import { MockBankService } from './helpers/mock-bank.service';
     {
       provide: BankService,
       useClass: MockBankService,
+    },
+    {
+      provide: TimeProviderService,
+      useClass: MockTimeProviderService,
     },
   ],
   imports: [HttpClientTestingModule],

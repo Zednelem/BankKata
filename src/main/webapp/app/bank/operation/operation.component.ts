@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { State } from 'app/bank/dashboard/dashboard.component';
+import { State } from 'app/bank/bank-state.service';
 
 export interface OperationComponentWording {
   title: string;
