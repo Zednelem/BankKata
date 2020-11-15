@@ -1,12 +1,13 @@
 <div *ngIf="wording">
     <p class="row h2">{{wording.title}}</p>
 
-    <form class="block"  [formGroup]="formGroup" >
+    <form class="block" [formGroup]="formGroup">
         <label class="col-form-label" for="bank-input">{{wording.inputLabel}}</label>
 
 
         <input type="number" id="bank-input" formControlName="amount"/>
-        <button type="submit" class="btn-primary" [disabled]="!formGroup.valid" (click)="run()">{{wording.submitButton}}</button>
+        <button type="submit" class="btn-primary" [disabled]="!formGroup.valid"
+                (click)="run()">{{wording.submitButton}}</button>
     </form>
     <ng-container [ngSwitch]="state">
         <div class="alert alert-info" *ngSwitchCase="States.LOADING">{{wording.loadingMessage}}</div>

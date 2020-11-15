@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, RouterEvent, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 

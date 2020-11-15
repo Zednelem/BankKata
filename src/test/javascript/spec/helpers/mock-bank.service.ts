@@ -3,13 +3,42 @@ import { Observable, of, throwError } from 'rxjs';
 
 import { SpyObject } from './spyobject';
 import { BankService } from 'app/core/bank/bank.service';
-import { Statement } from '../../../../main/webapp/app/bank/statements/statements.component';
+import { Statement, StatementModel, StatementType } from 'app/core/bank/statement.model';
+import { newArray } from '@angular/compiler/src/util';
+import { DEFAULT_NOW_TIME } from './mock-time-provider.service';
+
+export const defaultCreatedBy = 'DEFAULT_CREATED_BY';
+export const defaultlabel = 'DEFAULT_LABEL';
+export const defaultCreatedDate = DEFAULT_NOW_TIME;
+export const defaultAmount = 1000;
+export const defaultType = StatementType.DEPOSIT;
+export const genericStatement = new StatementModel(defaultCreatedBy, defaultCreatedDate, defaultlabel, defaultType, defaultAmount);
+const tmpArray: Statement[] = newArray<Statement>(20);
+for (let i = 0; i < 20; i++) {
+  const statement: Statement = { ...genericStatement };
+  statement.id = i;
+  statement.type = i % 2 === 0 ? StatementType.DEPOSIT : StatementType.WITHDRAW;
+  statement.validatedDate = new Date(Date.now() + 1000000000);
+  tmpArray.push(statement);
+}
+
+export const genericFetchResponse = [...tmpArray];
+
+let tmp: Statement = { ...genericStatement };
+// type is an attribute for the the front display only and should be overriden by the back
+tmp.type = StatementType.DEPOSIT;
+export const depositStatement = tmp;
+tmp = { ...genericStatement };
+// type is an attribute for the the front display only and should be overriden by the back
+tmp.type = StatementType.WITHDRAW;
+export const withdrawStatement = tmp;
 
 export class MockBankService extends SpyObject {
   getSpy: Spy;
   deposeMoneySpy: Spy;
   withdrawMoneySpy: Spy;
   fetchOperationsSpy: Spy;
+  statements$Spy: Spy;
 
   constructor() {
     super(BankService);
@@ -17,15 +46,16 @@ export class MockBankService extends SpyObject {
     this.getSpy = this.spy('get').andReturn(this);
     this.deposeMoneySpy = this.spy('deposeMoney').andReturn(of(null));
     this.withdrawMoneySpy = this.spy('withdrawMoney').andReturn(of(null));
-    this.fetchOperationsSpy = this.spy('fetchOperations').andReturn(of(null));
+    this.fetchOperationsSpy = this.spy('fetchOperations');
+    this.statements$Spy = this.spy('statements$').andReturn(of(null));
   }
 
-  setDepositMoneyResponse(idOperation: string | null): void {
-    this.deposeMoneySpy = this.spy('deposeMoney').andReturn(of(of(idOperation)));
+  setDepositMoneyResponse(statement: Statement | null): void {
+    this.deposeMoneySpy = this.spy('deposeMoney').andReturn(of(statement));
   }
 
-  setWithdrawMoneyResponse(idOperation: string | null): void {
-    this.withdrawMoneySpy = this.spy('withdrawMoney').andReturn(of(of(idOperation)));
+  setWithdrawMoneyResponse(statement: Statement | null): void {
+    this.withdrawMoneySpy = this.spy('withdrawMoney').andReturn(of(statement));
   }
 
   setDepositMoneyDoThrow(error: Error): void {
@@ -44,8 +74,8 @@ export class MockBankService extends SpyObject {
     this.withdrawMoneySpy = this.spy('withdrawMoney').andReturn(obs);
   }
 
-  setFetchOperationsResponse(statements: Array<Statement>): void {
-    this.fetchOperationsSpy = this.spy('fetchOperations').andReturn(of(of(statements)));
+  setStatements$Response(statements: Array<Statement>): void {
+    this.statements$Spy = this.spy('statements$').andReturn(of(of(statements)));
   }
 
   setFetchOperationsDoThrow(error: Error): void {

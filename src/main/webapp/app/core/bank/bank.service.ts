@@ -7,12 +7,12 @@ import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class BankService {
-  url = SERVER_API_URL + 'api/bank';
-  depositEndpoint = 'actions/deposit-money';
-  withdrawalEndpoint = 'actions/withdraw-money';
-  fetchStatementsEndpoint = 'statements';
+  private readonly url = SERVER_API_URL + 'api/bank';
+  private readonly depositEndpoint = 'actions/deposit-money';
+  private readonly withdrawalEndpoint = 'actions/withdraw-money';
+  private readonly fetchStatementsEndpoint = 'statements';
 
-  statements: Array<Statement> = new Array<Statement>();
+  private statements: Array<Statement> = new Array<Statement>();
   private readonly _statements: Subject<Statement[]> = new Subject<Statement[]>();
   readonly statements$ = this._statements.asObservable();
 

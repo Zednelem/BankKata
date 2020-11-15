@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { OperationComponentWording } from './operation/operation.component';
-import { Statement, StatementModel, StatementType } from 'app/core/bank/statement.model';
 import { BehaviorSubject } from 'rxjs';
 
 export enum State {
@@ -18,8 +17,9 @@ export class BankStateService {
   private withdrawState: State = State.INIT;
 
   private readonly _depositState = new BehaviorSubject<State>(State.INIT);
-  readonly depositState$ = this._depositState.asObservable();
   private readonly _withdrawState = new BehaviorSubject<State>(State.INIT);
+
+  readonly depositState$ = this._depositState.asObservable();
   readonly withdrawState$ = this._withdrawState.asObservable();
 
   constructor() {}
@@ -36,6 +36,7 @@ export class BankStateService {
       errorMessageSuffix: ' $ into your account. Try again later',
     };
   }
+
   public getWithdrawWording(): OperationComponentWording {
     return {
       title: 'How much would you like to withdraw?',
@@ -57,9 +58,5 @@ export class BankStateService {
   withdrawStateHasChangedTo(newState: State): void {
     this.withdrawState = newState;
     this._withdrawState.next(this.withdrawState);
-  }
-
-  createNewStatement(amount: number, type: StatementType): Statement {
-    return new StatementModel('CONNECETED USER', new Date(), 'LABEL', type, amount);
   }
 }

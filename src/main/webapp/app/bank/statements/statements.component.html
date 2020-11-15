@@ -14,7 +14,7 @@
     <tbody>
     <tr *ngFor="let statement of data">
         <th scope="row">{{statement.id }}</th>
-        <td>{{(statement.type===StatementType.WITHDRAW?-1:1)*statement.amount | number: "2.2"}} $</td>
+        <td>{{(statement.type === StatementType.WITHDRAW ? -1 : 1) * statement.amount | number: "2.2"}} $</td>
         <td>{{ statement.createdDate | date }}</td>
         <td>{{ statement.createdBy }}</td>
     </tr>

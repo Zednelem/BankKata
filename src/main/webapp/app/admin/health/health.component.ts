@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { HealthService, HealthStatus, Health, HealthKey, HealthDetails } from './health.service';
+import { Health, HealthDetails, HealthKey, HealthService, HealthStatus } from './health.service';
 import { HealthModalComponent } from './health-modal.component';
 
 @Component({

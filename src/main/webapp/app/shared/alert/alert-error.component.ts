@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { JhiEventManager, JhiAlert, JhiAlertService, JhiEventWithContent } from 'ng-jhipster';
+import { JhiAlert, JhiAlertService, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 import { Subscription } from 'rxjs';
 
 import { AlertError } from './alert-error.model';

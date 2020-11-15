@@ -1,0 +1,55 @@
+diff a/src/test/javascript/spec/helpers/mock-time-provider.service.ts b/src/test/javascript/spec/helpers/mock-time-provider.service.ts	(rejected hunks)
+@@ -6,16 +6,10 @@ import { BankService } from 'app/core/bank/bank.service';
+-import {Statement, StatementModel, StatementType} from "app/core/bank/statement.model";
+-import {newArray} from "@angular/compiler/src/util";
+-
+-
+-export const defaultCreatedBy = "DEFAULT_CREATED_BY";
+-export const  defaultlabel = "DEFAULT_LABEL";
+-export const  defaultCreatedDate = new Date();
+-export const  defaultAmount = 1000;
+-export const  defaultType = StatementType.DEPOSIT;
+-export const  genericStatement = new StatementModel(
+-  defaultCreatedBy,
+-  defaultCreatedDate,
+-  defaultlabel,
+-  defaultType,
+-  defaultAmount);
+-let tmpArray :Statement[] = newArray<Statement>(20);
++import { Statement, StatementModel, StatementType } from 'app/core/bank/statement.model';
++import { newArray } from '@angular/compiler/src/util';
++
++export const defaultCreatedBy = 'DEFAULT_CREATED_BY';
++export const defaultlabel = 'DEFAULT_LABEL';
++export const defaultCreatedDate = new Date();
++export const defaultAmount = 1000;
++export const defaultType = StatementType.DEPOSIT;
++export const genericStatement = new StatementModel(defaultCreatedBy, defaultCreatedDate, defaultlabel, defaultType, defaultAmount);
++let tmpArray: Statement[] = newArray<Statement>(20);
+@@ -23 +17 @@ for (let i = 0; i < 20; i++) {
+-  const statement: Statement = {...genericStatement};
++  const statement: Statement = { ...genericStatement };
+@@ -30 +24 @@ for (let i = 0; i < 20; i++) {
+-export const  genericFetchResponse = [...tmpArray];
++export const genericFetchResponse = [...tmpArray];
+@@ -32 +26 @@ export const  genericFetchResponse = [...tmpArray];
+-let tmp :Statement = {...genericStatement}
++let tmp: Statement = { ...genericStatement };
+@@ -35,2 +29,2 @@ tmp.type = StatementType.DEPOSIT;
+-export const  depositStatement = tmp;
+-tmp = {...genericStatement}
++export const depositStatement = tmp;
++tmp = { ...genericStatement };
+@@ -39 +33 @@ tmp.type = StatementType.WITHDRAW;
+-export const  withdrawStatement = tmp;
++export const withdrawStatement = tmp;
+@@ -56 +49 @@ export class MockBankService extends SpyObject {
+-    this.statements$Spy = this.spy('statements$').andReturn(of(null))
++    this.statements$Spy = this.spy('statements$').andReturn(of(null));
+@@ -84 +77 @@ export class MockBankService extends SpyObject {
+-    this.statements$Spy = this.spy('statements$').andReturn(of(of(statements)))
++    this.statements$Spy = this.spy('statements$').andReturn(of(of(statements)));
+@@ -94,3 +86,0 @@ export class MockBankService extends SpyObject {
+-
+-
+-

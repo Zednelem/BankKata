@@ -12,10 +12,12 @@
             <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="account" novalidate>
                 <div class="form-group">
                     <label class="form-control-label" for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Your first name"
+                    <input type="text" class="form-control" id="firstName" name="firstName"
+                           placeholder="Your first name"
                            formControlName="firstName">
 
-                    <div *ngIf="settingsForm.get('firstName')!.invalid && (settingsForm.get('firstName')!.dirty || settingsForm.get('firstName')!.touched)">
+                    <div
+                        *ngIf="settingsForm.get('firstName')!.invalid && (settingsForm.get('firstName')!.dirty || settingsForm.get('firstName')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="settingsForm.get('firstName')?.errors?.required">
                             Your first name is required.
@@ -38,7 +40,8 @@
                     <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Your last name"
                            formControlName="lastName">
 
-                    <div *ngIf="settingsForm.get('lastName')!.invalid && (settingsForm.get('lastName')!.dirty || settingsForm.get('lastName')!.touched)">
+                    <div
+                        *ngIf="settingsForm.get('lastName')!.invalid && (settingsForm.get('lastName')!.dirty || settingsForm.get('lastName')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="settingsForm.get('lastName')?.errors?.required">
                             Your last name is required.
@@ -61,7 +64,8 @@
                     <input type="email" class="form-control" id="email" name="email" placeholder="Your email"
                            formControlName="email">
 
-                    <div *ngIf="settingsForm.get('email')!.invalid && (settingsForm.get('email')!.dirty || settingsForm.get('email')!.touched)">
+                    <div
+                        *ngIf="settingsForm.get('email')!.invalid && (settingsForm.get('email')!.dirty || settingsForm.get('email')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="settingsForm.get('email')?.errors?.required">
                             Your email is required.

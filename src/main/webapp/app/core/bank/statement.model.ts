@@ -7,6 +7,7 @@ export interface Statement {
   type: StatementType;
   amount: number;
 }
+
 export enum StatementType {
   DEPOSIT = 'DEPOSIT',
   WITHDRAW = 'WITHDRAW',
