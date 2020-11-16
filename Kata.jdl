@@ -1,0 +1,69 @@
+application {
+  config {
+    applicationType monolith
+    authenticationType jwt
+    baseName Kata
+    blueprints []
+    buildTool maven
+    cacheProvider no
+    clientFramework angularX
+    clientPackageManager npm
+    clientTheme none
+    creationTimestamp 1604915825622
+    databaseType sql
+    devDatabaseType h2Disk
+    dtoSuffix DTO
+    embeddableLaunchScript false
+    enableHibernateCache true
+    enableSwaggerCodegen false
+    enableTranslation false
+    jhiPrefix jhi
+    jhipsterVersion "6.10.4"
+    jwtSecretKey "NmVkMTRmOWQxNWZlNmVkNTc5Y2FmYzMyOWI4M2YzYzJkZGE1MzZiN2IwMmY0NTVmZTljNDkzZTg0ODM4ZjBlMThlMTRkMDQzNjFiNDE4NWRlYWI0MGYzMTBlZTJhZGYzYjI0MTlhYzhkNWVjOGQxNmE2YjZmOTBiYTBjYjNmZDI="
+    languages [en, fr]
+    messageBroker false
+    nativeLanguage en
+    otherModules []
+    packageName com.melendez.kata
+    prodDatabaseType postgresql
+    searchEngine false
+    serverPort 8080
+    serviceDiscoveryType false
+    skipClient false
+    skipServer false
+    skipUserManagement false
+    testFrameworks []
+    useSass true
+    websocket false
+  }
+
+  entities BankAccount, BankStatement
+ }
+
+   entity BankAccount {
+     balance Double required,
+     name String required minlength(3) maxlength(20) pattern(/^[a-zA-Z0-9 ]*$/)
+   }
+   entity BankStatement {
+     amount Double required,
+     label String required minlength(3) maxlength(20) pattern(/^[a-zA-Z0-9 ]*$/),
+     validatedDate Instant,
+     statementType StatementType required
+   }
+   relationship ManyToOne {
+     BankAccount{user(login) required} to User
+   }
+   relationship ManyToOne {
+     BankStatement{account(name) required} to BankAccount
+   }
+
+   enum StatementType {
+       DEPOSIT, WITHDRAW
+   }
+
+
+   dto BankAccount, BankStatement with mapstruct
+   paginate BankAccount, BankStatement with pagination
+   service BankAccount, BankStatement with serviceImpl
+   filter BankAccount, BankStatement
+   readOnly BankAccount, BankStatement

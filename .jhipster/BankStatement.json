@@ -1,0 +1,49 @@
+{
+  "name": "BankStatement",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "label",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "pattern"],
+      "fieldValidateRulesMinlength": "3",
+      "fieldValidateRulesMaxlength": "20",
+      "fieldValidateRulesPattern": "^[a-zA-Z0-9 ]*$"
+    },
+    {
+      "fieldName": "validatedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "statementType",
+      "fieldType": "StatementType",
+      "fieldValues": "DEPOSIT,WITHDRAW",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "bankAccount",
+      "otherEntityRelationshipName": "bankStatement",
+      "relationshipValidateRules": "required",
+      "relationshipName": "account",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20201115234756",
+  "entityTableName": "bank_statement",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": true,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": ["Kata"]
+}

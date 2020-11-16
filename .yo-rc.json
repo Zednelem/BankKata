@@ -34,6 +34,13 @@
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": false,
-    "blueprints": []
-  }
+    "blueprints": [],
+    "skipUserManagement": false,
+    "enableHibernateCache": false,
+    "languages": ["en", "fr"],
+    "nativeLanguage": "en",
+    "skipClient": false,
+    "skipServer": false
+  },
+  "entities": ["BankAccount", "BankStatement"]
 }

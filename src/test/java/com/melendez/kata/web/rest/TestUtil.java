@@ -38,9 +38,6 @@ public final class TestUtil {
         return mapper;
     }
 
-    public static String convertObjectToJsonString(Object object) throws IOException {
-        return mapper.writeValueAsString(object);
-    }
     /**
      * Convert an object to JSON byte array.
      *

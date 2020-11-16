@@ -1,0 +1,63 @@
+<div>
+    <h2 id="page-heading">
+        <span>Bank Statements</span>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="bankStatements?.length === 0">
+        <span>No bankStatements found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="bankStatements && bankStatements.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="label"><span>Label</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="validatedDate"><span>Validated Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="statementType"><span>Statement Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="accountName"><span>Account</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bankStatement of bankStatements ;trackBy: trackId">
+                    <td><a [routerLink]="['/bank-statement', bankStatement.id, 'view']">{{ bankStatement.id }}</a></td>
+                    <td>{{ bankStatement.amount }}</td>
+                    <td>{{ bankStatement.label }}</td>
+                    <td>{{ bankStatement.validatedDate | date:'medium' }}</td>
+                    <td>{{ bankStatement.statementType }}</td>
+                    <td>
+                        <div *ngIf="bankStatement.accountId">
+                            <a [routerLink]="['/bank-account', bankStatement.accountId , 'view']" >{{ bankStatement.accountName }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/bank-statement', bankStatement.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="bankStatements && bankStatements.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>
