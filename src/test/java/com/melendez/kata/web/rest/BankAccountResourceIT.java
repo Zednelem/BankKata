@@ -80,6 +80,23 @@ public class BankAccountResourceIT {
         return bankAccount;
     }
     /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static BankAccount createEntityWithDefaultUser(EntityManager em) {
+        BankAccount bankAccount = new BankAccount()
+            .balance(DEFAULT_BALANCE)
+            .name(DEFAULT_NAME);
+        // Add required entity
+        User user = UserResourceIT.createEntityWithDefaultLogin(em);
+        em.persist(user);
+        em.flush();
+        bankAccount.setUser(user);
+        return bankAccount;
+    }
+    /**
      * Create an updated entity for this test.
      *
      * This is a static method, as tests for other entities might also need it,
@@ -116,7 +133,7 @@ public class BankAccountResourceIT {
             .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
     }
-    
+
     @Test
     @Transactional
     public void getBankAccount() throws Exception {

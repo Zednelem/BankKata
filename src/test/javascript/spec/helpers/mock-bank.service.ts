@@ -17,7 +17,7 @@ const tmpArray: Statement[] = newArray<Statement>(20);
 for (let i = 0; i < 20; i++) {
   const statement: Statement = { ...genericStatement };
   statement.id = i;
-  statement.type = i % 2 === 0 ? StatementType.DEPOSIT : StatementType.WITHDRAW;
+  statement.statementType = i % 2 === 0 ? StatementType.DEPOSIT : StatementType.WITHDRAW;
   statement.validatedDate = new Date(Date.now() + 1000000000);
   tmpArray.push(statement);
 }
@@ -26,11 +26,11 @@ export const genericFetchResponse = [...tmpArray];
 
 let tmp: Statement = { ...genericStatement };
 // type is an attribute for the the front display only and should be overriden by the back
-tmp.type = StatementType.DEPOSIT;
+tmp.statementType = StatementType.DEPOSIT;
 export const depositStatement = tmp;
 tmp = { ...genericStatement };
 // type is an attribute for the the front display only and should be overriden by the back
-tmp.type = StatementType.WITHDRAW;
+tmp.statementType = StatementType.WITHDRAW;
 export const withdrawStatement = tmp;
 
 export class MockBankService extends SpyObject {

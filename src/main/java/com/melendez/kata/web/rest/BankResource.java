@@ -1,16 +1,13 @@
 package com.melendez.kata.web.rest;
 
 import com.melendez.kata.service.BankService;
-import com.melendez.kata.service.dto.StatementDTO;
+import com.melendez.kata.service.dto.BankStatementDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Instant;
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -28,9 +25,11 @@ public class BankResource {
 
     /**
      * POST depositMoney
+     * @param statementDTO
+     * @return
      */
     @PostMapping("/actions/deposit-money")
-    public ResponseEntity<StatementDTO> depositMoney(@RequestBody @Valid StatementDTO statementDTO) throws URISyntaxException {
+    public ResponseEntity<BankStatementDTO> depositMoney(@RequestBody @Valid BankStatementDTO statementDTO) throws URISyntaxException {
         statementDTO = bankService.depositMoney(statementDTO);
         return ResponseEntity.created(new URI("api/bank/operations/"+statementDTO.getId()))
             .body( statementDTO );
@@ -38,9 +37,11 @@ public class BankResource {
 
     /**
      * POST withdrawMoney
+     * @param statementDTO
+     * @return
      */
     @PostMapping("/actions/withdraw-money")
-    public ResponseEntity<StatementDTO>  withdrawMoney(@RequestBody @Valid StatementDTO statementDTO) throws URISyntaxException {
+    public ResponseEntity<BankStatementDTO> withdrawMoney(@RequestBody @Valid BankStatementDTO statementDTO) throws URISyntaxException {
         statementDTO = bankService.withdraw(statementDTO);
         return ResponseEntity.created(new URI("api/bank/operations/"+statementDTO.getId()))
             .body(statementDTO);
@@ -48,8 +49,8 @@ public class BankResource {
 
 
     @GetMapping("/statements")
-    public ResponseEntity<Set<StatementDTO>> getStatements() {
-        Set<StatementDTO> statementDTOS = bankService.fetchStatements();
+    public ResponseEntity<Set<BankStatementDTO>> getStatements() {
+        Set<BankStatementDTO> statementDTOS = bankService.fetchStatements();
         return ResponseEntity.ok(statementDTOS);
     }
 
