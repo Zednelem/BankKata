@@ -1,4 +1,4 @@
-import { JhiAlert, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiAlert } from 'ng-jhipster';
 
 import { SpyObject } from './spyobject';
 

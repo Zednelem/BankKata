@@ -4,7 +4,7 @@ export interface Statement {
   createdDate: Date;
   validatedDate?: Date;
   label: string;
-  type: StatementType;
+  statementType: StatementType;
   amount: number;
 }
 
@@ -18,7 +18,7 @@ export class StatementModel {
     public createdBy: string,
     public createdDate: Date,
     public label: string,
-    public type: StatementType,
+    public statementType: StatementType,
     public amount: number
   ) {}
 }

@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
-import { of, throwError } from 'rxjs';
+import { throwError, of } from 'rxjs';
 
 import { KataTestModule } from '../../../test.module';
 import { AccountService } from 'app/core/auth/account.service';

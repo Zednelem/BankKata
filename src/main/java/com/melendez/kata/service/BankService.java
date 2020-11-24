@@ -1,6 +1,6 @@
 package com.melendez.kata.service;
 
-import com.melendez.kata.service.dto.StatementDTO;
+import com.melendez.kata.service.dto.BankStatementDTO;
 
 import java.util.Set;
 
@@ -9,9 +9,9 @@ import java.util.Set;
  */
 public interface BankService {
 
-    StatementDTO depositMoney(StatementDTO amount);
+    BankStatementDTO depositMoney(BankStatementDTO amount);
 
-    StatementDTO withdraw(StatementDTO statement);
+    BankStatementDTO withdraw(BankStatementDTO statement);
 
-    Set<StatementDTO> fetchStatements();
+    Set<BankStatementDTO> fetchStatements();
 }
