@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Level, Log, Logger, LoggersResponse } from './log.model';
+import { Log, LoggersResponse, Logger, Level } from './log.model';
 import { LogsService } from './logs.service';
 
 @Component({

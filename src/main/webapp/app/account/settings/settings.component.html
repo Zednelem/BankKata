@@ -12,8 +12,7 @@
             <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="account" novalidate>
                 <div class="form-group">
                     <label class="form-control-label" for="firstName">First Name</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName"
-                           placeholder="Your first name"
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Your first name"
                            formControlName="firstName">
 
                     <div *ngIf="settingsForm.get('firstName')!.invalid && (settingsForm.get('firstName')!.dirty || settingsForm.get('firstName')!.touched)">

@@ -1,10 +1,10 @@
 package com.melendez.kata.service.mapper;
 
 
-import com.melendez.kata.domain.BankStatement;
+import com.melendez.kata.domain.*;
 import com.melendez.kata.service.dto.BankStatementDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link BankStatement} and its DTO {@link BankStatementDTO}.

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-
+    
     <!--
         Added the entity BankStatement.
     -->
@@ -25,12 +27,19 @@
             <column name="statement_type" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="created_by" type="varchar(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_date" type="datetime">
+                <constraints nullable="false" />
+            </column>
             <column name="account_id" type="bigint">
                 <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="bank_statement" columnName="validated_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="bank_statement" columnName="created_date" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20201115234756-1-relations" author="jhipster">
@@ -56,6 +65,8 @@
             <column name="label" type="string"/>
             <column name="validated_date" type="datetime"/>
             <column name="statement_type" type="string"/>
+            <column name="created_by" type="string"/>
+            <column name="created_date" type="datetime"/>
             <column name="account_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

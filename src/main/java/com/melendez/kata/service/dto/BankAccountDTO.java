@@ -1,15 +1,13 @@
 package com.melendez.kata.service.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
  * A DTO for the {@link com.melendez.kata.domain.BankAccount} entity.
  */
 public class BankAccountDTO implements Serializable {
-
+    
     private Long id;
 
     @NotNull
@@ -24,7 +22,7 @@ public class BankAccountDTO implements Serializable {
     private Long userId;
 
     private String userLogin;
-
+    
     public Long getId() {
         return id;
     }

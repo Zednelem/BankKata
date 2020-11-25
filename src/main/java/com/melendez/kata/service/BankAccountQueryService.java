@@ -1,13 +1,9 @@
 package com.melendez.kata.service;
 
-import com.melendez.kata.domain.BankAccount;
-import com.melendez.kata.domain.BankAccount_;
-import com.melendez.kata.domain.User_;
-import com.melendez.kata.repository.BankAccountRepository;
-import com.melendez.kata.service.dto.BankAccountCriteria;
-import com.melendez.kata.service.dto.BankAccountDTO;
-import com.melendez.kata.service.mapper.BankAccountMapper;
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,8 +12,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import com.melendez.kata.domain.BankAccount;
+import com.melendez.kata.domain.*; // for static metamodels
+import com.melendez.kata.repository.BankAccountRepository;
+import com.melendez.kata.service.dto.BankAccountCriteria;
+import com.melendez.kata.service.dto.BankAccountDTO;
+import com.melendez.kata.service.mapper.BankAccountMapper;
 
 /**
  * Service for executing complex queries for {@link BankAccount} entities in the database.

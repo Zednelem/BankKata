@@ -24,6 +24,14 @@
                 <dd>
                     <span>{{ bankStatement.statementType }}</span>
                 </dd>
+                <dt><span>Created By</span></dt>
+                <dd>
+                    <span>{{ bankStatement.createdBy }}</span>
+                </dd>
+                <dt><span>Created Date</span></dt>
+                <dd>
+                    <span>{{ bankStatement.createdDate }}</span>
+                </dd>
                 <dt><span>Account</span></dt>
                 <dd>
                     <div *ngIf="bankStatement.accountId">

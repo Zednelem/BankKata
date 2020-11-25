@@ -1,6 +1,7 @@
 package com.melendez.kata.service;
 
 import com.melendez.kata.service.dto.BankStatementDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

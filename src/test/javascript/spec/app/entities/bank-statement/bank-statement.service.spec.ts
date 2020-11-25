@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new BankStatement(0, 0, 'AAAAAAA', currentDate, StatementType.DEPOSIT);
+      elemDefault = new BankStatement(0, 0, 'AAAAAAA', currentDate, StatementType.DEPOSIT, 'AAAAAAA', currentDate);
     });
 
     describe('Service methods', () => {
@@ -33,6 +33,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             validatedDate: currentDate.format(DATE_TIME_FORMAT),
+            createdDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -51,6 +52,8 @@ describe('Service Tests', () => {
             label: 'BBBBBB',
             validatedDate: currentDate.format(DATE_TIME_FORMAT),
             statementType: 'BBBBBB',
+            createdBy: 'BBBBBB',
+            createdDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -58,6 +61,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             validatedDate: currentDate,
+            createdDate: currentDate,
           },
           returnedFromService
         );

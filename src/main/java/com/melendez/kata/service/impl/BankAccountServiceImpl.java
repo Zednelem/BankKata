@@ -1,12 +1,13 @@
 package com.melendez.kata.service.impl;
 
+import com.melendez.kata.service.BankAccountService;
 import com.melendez.kata.domain.BankAccount;
 import com.melendez.kata.repository.BankAccountRepository;
-import com.melendez.kata.service.BankAccountService;
 import com.melendez.kata.service.dto.BankAccountDTO;
 import com.melendez.kata.service.mapper.BankAccountMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

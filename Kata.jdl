@@ -48,7 +48,9 @@ application {
      amount Double required,
      label String required minlength(3) maxlength(20) pattern(/^[a-zA-Z0-9 ]*$/),
      validatedDate Instant,
-     statementType StatementType required
+     statementType StatementType required,
+     createdBy String required minlength(3) maxlength(20) pattern(/^[a-zA-Z0-9 ]*$/),
+     createdDate Instant required
    }
    relationship ManyToOne {
      BankAccount{user(login) required} to User

@@ -23,6 +23,19 @@
       "fieldType": "StatementType",
       "fieldValues": "DEPOSIT,WITHDRAW",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "pattern"],
+      "fieldValidateRulesMinlength": "3",
+      "fieldValidateRulesMaxlength": "20",
+      "fieldValidateRulesPattern": "^[a-zA-Z0-9 ]*$"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [

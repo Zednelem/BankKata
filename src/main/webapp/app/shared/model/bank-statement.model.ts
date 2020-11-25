@@ -7,6 +7,8 @@ export interface IBankStatement {
   label?: string;
   validatedDate?: Moment;
   statementType?: StatementType;
+  createdBy?: string;
+  createdDate?: Moment;
   accountName?: string;
   accountId?: number;
 }
@@ -18,6 +20,8 @@ export class BankStatement implements IBankStatement {
     public label?: string,
     public validatedDate?: Moment,
     public statementType?: StatementType,
+    public createdBy?: string,
+    public createdDate?: Moment,
     public accountName?: string,
     public accountId?: number
   ) {}

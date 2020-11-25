@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpResponse, HttpHeaders } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest, Subscription } from 'rxjs';
-import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
+import { Subscription, combineLatest } from 'rxjs';
+import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';

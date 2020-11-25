@@ -42,8 +42,7 @@
                     <input type="text" class="form-control" name="firstName"
                            formControlName="firstName">
 
-                    <div
-                        *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
+                    <div *ngIf="editForm.get('firstName')!.invalid && (editForm.get('firstName')!.dirty || editForm.get('firstName')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('firstName')?.errors?.maxlength">
                             This field cannot be longer than 50 characters.
@@ -56,8 +55,7 @@
                     <input type="text" class="form-control" name="lastName"
                            formControlName="lastName">
 
-                    <div
-                        *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
+                    <div *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('lastName')?.errors?.maxlength">
                             This field cannot be longer than 50 characters.
@@ -69,8 +67,7 @@
                     <label class="form-control-label">Email</label>
                     <input type="email" class="form-control" name="email" formControlName="email">
 
-                    <div
-                        *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
+                    <div *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('email')?.errors?.required">
                             This field is required.

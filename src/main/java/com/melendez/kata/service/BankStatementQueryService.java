@@ -1,13 +1,9 @@
 package com.melendez.kata.service;
 
-import com.melendez.kata.domain.BankAccount_;
-import com.melendez.kata.domain.BankStatement;
-import com.melendez.kata.domain.BankStatement_;
-import com.melendez.kata.repository.BankStatementRepository;
-import com.melendez.kata.service.dto.BankStatementCriteria;
-import com.melendez.kata.service.dto.BankStatementDTO;
-import com.melendez.kata.service.mapper.BankStatementMapper;
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,8 +12,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.JoinType;
-import java.util.List;
+import io.github.jhipster.service.QueryService;
+
+import com.melendez.kata.domain.BankStatement;
+import com.melendez.kata.domain.*; // for static metamodels
+import com.melendez.kata.repository.BankStatementRepository;
+import com.melendez.kata.service.dto.BankStatementCriteria;
+import com.melendez.kata.service.dto.BankStatementDTO;
+import com.melendez.kata.service.mapper.BankStatementMapper;
 
 /**
  * Service for executing complex queries for {@link BankStatement} entities in the database.
@@ -100,6 +102,12 @@ public class BankStatementQueryService extends QueryService<BankStatement> {
             }
             if (criteria.getStatementType() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatementType(), BankStatement_.statementType));
+            }
+            if (criteria.getCreatedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getCreatedBy(), BankStatement_.createdBy));
+            }
+            if (criteria.getCreatedDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCreatedDate(), BankStatement_.createdDate));
             }
             if (criteria.getAccountId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAccountId(),

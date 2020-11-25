@@ -1,14 +1,14 @@
 package com.melendez.kata.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.melendez.kata.domain.enumeration.StatementType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.time.Instant;
+
+import com.melendez.kata.domain.enumeration.StatementType;
 
 /**
  * A BankStatement.
@@ -41,6 +41,16 @@ public class BankStatement implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "statement_type", nullable = false)
     private StatementType statementType;
+
+    @NotNull
+    @Size(min = 3, max = 20)
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$")
+    @Column(name = "created_by", length = 20, nullable = false)
+    private String createdBy;
+
+    @NotNull
+    @Column(name = "created_date", nullable = false)
+    private Instant createdDate;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -108,6 +118,32 @@ public class BankStatement implements Serializable {
         this.statementType = statementType;
     }
 
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public BankStatement createdBy(String createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public BankStatement createdDate(Instant createdDate) {
+        this.createdDate = createdDate;
+        return this;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public BankAccount getAccount() {
         return account;
     }
@@ -147,6 +183,8 @@ public class BankStatement implements Serializable {
             ", label='" + getLabel() + "'" +
             ", validatedDate='" + getValidatedDate() + "'" +
             ", statementType='" + getStatementType() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
             "}";
     }
 }

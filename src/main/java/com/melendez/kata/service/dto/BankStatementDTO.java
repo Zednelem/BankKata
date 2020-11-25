@@ -1,17 +1,12 @@
 package com.melendez.kata.service.dto;
 
-import com.melendez.kata.domain.BankStatement;
+import java.time.Instant;
+import javax.validation.constraints.*;
+import java.io.Serializable;
 import com.melendez.kata.domain.enumeration.StatementType;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.time.Instant;
-
 /**
- * A DTO for the {@link BankStatement} entity.
+ * A DTO for the {@link com.melendez.kata.domain.BankStatement} entity.
  */
 public class BankStatementDTO implements Serializable {
 
@@ -30,12 +25,18 @@ public class BankStatementDTO implements Serializable {
 
     private StatementType statementType;
 
+    @NotNull
+    @Size(min = 3, max = 20)
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$")
+    private String createdBy;
+
+    @NotNull
+    private Instant createdDate;
+
 
     private Long accountId;
 
     private String accountName;
-    private String createdBy;
-    private Instant createdDate;
 
     public Long getId() {
         return id;
@@ -75,6 +76,22 @@ public class BankStatementDTO implements Serializable {
 
     public void setStatementType(StatementType statementType) {
         this.statementType = statementType;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Long getAccountId() {
@@ -119,24 +136,10 @@ public class BankStatementDTO implements Serializable {
             ", label='" + getLabel() + "'" +
             ", validatedDate='" + getValidatedDate() + "'" +
             ", statementType='" + getStatementType() + "'" +
+            ", createdBy='" + getCreatedBy() + "'" +
+            ", createdDate='" + getCreatedDate() + "'" +
             ", accountId=" + getAccountId() +
             ", accountName='" + getAccountName() + "'" +
             "}";
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedDate(Instant createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Instant getCreatedDate() {
-        return createdDate;
     }
 }

@@ -75,6 +75,7 @@ public class BankServiceImpl implements BankService {
         statement.setCreatedDate(time.getDate());
         statement.setValidatedDate(null);
         statement = bankStatementMapper.toDto(statementsRepo.save(bankStatementMapper.toEntity(statement)));
+
         return statement;
     }
 

@@ -20,6 +20,8 @@
                     <th scope="col"  jhiSortBy="label"><span>Label</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="validatedDate"><span>Validated Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="statementType"><span>Statement Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdBy"><span>Created By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="createdDate"><span>Created Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="accountName"><span>Account</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -31,6 +33,8 @@
                     <td>{{ bankStatement.label }}</td>
                     <td>{{ bankStatement.validatedDate | date:'medium' }}</td>
                     <td>{{ bankStatement.statementType }}</td>
+                    <td>{{ bankStatement.createdBy }}</td>
+                    <td>{{ bankStatement.createdDate | date:'medium' }}</td>
                     <td>
                         <div *ngIf="bankStatement.accountId">
                             <a [routerLink]="['/bank-account', bankStatement.accountId , 'view']" >{{ bankStatement.accountName }}</a>

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { flatMap } from 'rxjs/operators';
 
-import { Metrics, MetricsKey, MetricsService, Thread, ThreadDump } from './metrics.service';
+import { MetricsService, Metrics, MetricsKey, ThreadDump, Thread } from './metrics.service';
 
 @Component({
   selector: 'jhi-metrics',

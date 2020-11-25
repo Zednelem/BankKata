@@ -1,11 +1,17 @@
 package com.melendez.kata.service.dto;
 
-import com.melendez.kata.domain.enumeration.StatementType;
-import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.*;
-
 import java.io.Serializable;
 import java.util.Objects;
+import io.github.jhipster.service.Criteria;
+import com.melendez.kata.domain.enumeration.StatementType;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the {@link com.melendez.kata.domain.BankStatement} entity. This class is used
@@ -48,6 +54,10 @@ public class BankStatementCriteria implements Serializable, Criteria {
 
     private StatementTypeFilter statementType;
 
+    private StringFilter createdBy;
+
+    private InstantFilter createdDate;
+
     private LongFilter accountId;
 
     public BankStatementCriteria() {
@@ -59,6 +69,8 @@ public class BankStatementCriteria implements Serializable, Criteria {
         this.label = other.label == null ? null : other.label.copy();
         this.validatedDate = other.validatedDate == null ? null : other.validatedDate.copy();
         this.statementType = other.statementType == null ? null : other.statementType.copy();
+        this.createdBy = other.createdBy == null ? null : other.createdBy.copy();
+        this.createdDate = other.createdDate == null ? null : other.createdDate.copy();
         this.accountId = other.accountId == null ? null : other.accountId.copy();
     }
 
@@ -107,6 +119,22 @@ public class BankStatementCriteria implements Serializable, Criteria {
         this.statementType = statementType;
     }
 
+    public StringFilter getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(StringFilter createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public InstantFilter getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(InstantFilter createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public LongFilter getAccountId() {
         return accountId;
     }
@@ -131,6 +159,8 @@ public class BankStatementCriteria implements Serializable, Criteria {
             Objects.equals(label, that.label) &&
             Objects.equals(validatedDate, that.validatedDate) &&
             Objects.equals(statementType, that.statementType) &&
+            Objects.equals(createdBy, that.createdBy) &&
+            Objects.equals(createdDate, that.createdDate) &&
             Objects.equals(accountId, that.accountId);
     }
 
@@ -142,6 +172,8 @@ public class BankStatementCriteria implements Serializable, Criteria {
         label,
         validatedDate,
         statementType,
+        createdBy,
+        createdDate,
         accountId
         );
     }
@@ -155,6 +187,8 @@ public class BankStatementCriteria implements Serializable, Criteria {
                 (label != null ? "label=" + label + ", " : "") +
                 (validatedDate != null ? "validatedDate=" + validatedDate + ", " : "") +
                 (statementType != null ? "statementType=" + statementType + ", " : "") +
+                (createdBy != null ? "createdBy=" + createdBy + ", " : "") +
+                (createdDate != null ? "createdDate=" + createdDate + ", " : "") +
                 (accountId != null ? "accountId=" + accountId + ", " : "") +
             "}";
     }

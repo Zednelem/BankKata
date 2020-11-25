@@ -51,6 +51,12 @@ public class BankStatementResourceIT {
     private static final StatementType DEFAULT_STATEMENT_TYPE = StatementType.DEPOSIT;
     private static final StatementType UPDATED_STATEMENT_TYPE = StatementType.WITHDRAW;
 
+    private static final String DEFAULT_CREATED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_CREATED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_CREATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     @Autowired
     private BankStatementRepository bankStatementRepository;
 
@@ -82,7 +88,9 @@ public class BankStatementResourceIT {
             .amount(DEFAULT_AMOUNT)
             .label(DEFAULT_LABEL)
             .validatedDate(DEFAULT_VALIDATED_DATE)
-            .statementType(DEFAULT_STATEMENT_TYPE);
+            .statementType(DEFAULT_STATEMENT_TYPE)
+            .createdBy(DEFAULT_CREATED_BY)
+            .createdDate(DEFAULT_CREATED_DATE);
         // Add required entity
         BankAccount bankAccount;
         if (TestUtil.findAll(em, BankAccount.class).isEmpty()) {
@@ -106,7 +114,9 @@ public class BankStatementResourceIT {
             .amount(UPDATED_AMOUNT)
             .label(UPDATED_LABEL)
             .validatedDate(UPDATED_VALIDATED_DATE)
-            .statementType(UPDATED_STATEMENT_TYPE);
+            .statementType(UPDATED_STATEMENT_TYPE)
+            .createdBy(UPDATED_CREATED_BY)
+            .createdDate(UPDATED_CREATED_DATE);
         // Add required entity
         BankAccount bankAccount;
         if (TestUtil.findAll(em, BankAccount.class).isEmpty()) {
@@ -139,7 +149,9 @@ public class BankStatementResourceIT {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL)))
             .andExpect(jsonPath("$.[*].validatedDate").value(hasItem(DEFAULT_VALIDATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].statementType").value(hasItem(DEFAULT_STATEMENT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].statementType").value(hasItem(DEFAULT_STATEMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())));
     }
     
     @Test
@@ -156,7 +168,9 @@ public class BankStatementResourceIT {
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.doubleValue()))
             .andExpect(jsonPath("$.label").value(DEFAULT_LABEL))
             .andExpect(jsonPath("$.validatedDate").value(DEFAULT_VALIDATED_DATE.toString()))
-            .andExpect(jsonPath("$.statementType").value(DEFAULT_STATEMENT_TYPE.toString()));
+            .andExpect(jsonPath("$.statementType").value(DEFAULT_STATEMENT_TYPE.toString()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY))
+            .andExpect(jsonPath("$.createdDate").value(DEFAULT_CREATED_DATE.toString()));
     }
 
 
@@ -468,6 +482,136 @@ public class BankStatementResourceIT {
 
     @Test
     @Transactional
+    public void getAllBankStatementsByCreatedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdBy equals to DEFAULT_CREATED_BY
+        defaultBankStatementShouldBeFound("createdBy.equals=" + DEFAULT_CREATED_BY);
+
+        // Get all the bankStatementList where createdBy equals to UPDATED_CREATED_BY
+        defaultBankStatementShouldNotBeFound("createdBy.equals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedByIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdBy not equals to DEFAULT_CREATED_BY
+        defaultBankStatementShouldNotBeFound("createdBy.notEquals=" + DEFAULT_CREATED_BY);
+
+        // Get all the bankStatementList where createdBy not equals to UPDATED_CREATED_BY
+        defaultBankStatementShouldBeFound("createdBy.notEquals=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdBy in DEFAULT_CREATED_BY or UPDATED_CREATED_BY
+        defaultBankStatementShouldBeFound("createdBy.in=" + DEFAULT_CREATED_BY + "," + UPDATED_CREATED_BY);
+
+        // Get all the bankStatementList where createdBy equals to UPDATED_CREATED_BY
+        defaultBankStatementShouldNotBeFound("createdBy.in=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdBy is not null
+        defaultBankStatementShouldBeFound("createdBy.specified=true");
+
+        // Get all the bankStatementList where createdBy is null
+        defaultBankStatementShouldNotBeFound("createdBy.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedByContainsSomething() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdBy contains DEFAULT_CREATED_BY
+        defaultBankStatementShouldBeFound("createdBy.contains=" + DEFAULT_CREATED_BY);
+
+        // Get all the bankStatementList where createdBy contains UPDATED_CREATED_BY
+        defaultBankStatementShouldNotBeFound("createdBy.contains=" + UPDATED_CREATED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdBy does not contain DEFAULT_CREATED_BY
+        defaultBankStatementShouldNotBeFound("createdBy.doesNotContain=" + DEFAULT_CREATED_BY);
+
+        // Get all the bankStatementList where createdBy does not contain UPDATED_CREATED_BY
+        defaultBankStatementShouldBeFound("createdBy.doesNotContain=" + UPDATED_CREATED_BY);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdDate equals to DEFAULT_CREATED_DATE
+        defaultBankStatementShouldBeFound("createdDate.equals=" + DEFAULT_CREATED_DATE);
+
+        // Get all the bankStatementList where createdDate equals to UPDATED_CREATED_DATE
+        defaultBankStatementShouldNotBeFound("createdDate.equals=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdDate not equals to DEFAULT_CREATED_DATE
+        defaultBankStatementShouldNotBeFound("createdDate.notEquals=" + DEFAULT_CREATED_DATE);
+
+        // Get all the bankStatementList where createdDate not equals to UPDATED_CREATED_DATE
+        defaultBankStatementShouldBeFound("createdDate.notEquals=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdDate in DEFAULT_CREATED_DATE or UPDATED_CREATED_DATE
+        defaultBankStatementShouldBeFound("createdDate.in=" + DEFAULT_CREATED_DATE + "," + UPDATED_CREATED_DATE);
+
+        // Get all the bankStatementList where createdDate equals to UPDATED_CREATED_DATE
+        defaultBankStatementShouldNotBeFound("createdDate.in=" + UPDATED_CREATED_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBankStatementsByCreatedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        bankStatementRepository.saveAndFlush(bankStatement);
+
+        // Get all the bankStatementList where createdDate is not null
+        defaultBankStatementShouldBeFound("createdDate.specified=true");
+
+        // Get all the bankStatementList where createdDate is null
+        defaultBankStatementShouldNotBeFound("createdDate.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllBankStatementsByAccountIsEqualToSomething() throws Exception {
         // Get already existing entity
         BankAccount account = bankStatement.getAccount();
@@ -492,7 +636,9 @@ public class BankStatementResourceIT {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL)))
             .andExpect(jsonPath("$.[*].validatedDate").value(hasItem(DEFAULT_VALIDATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].statementType").value(hasItem(DEFAULT_STATEMENT_TYPE.toString())));
+            .andExpect(jsonPath("$.[*].statementType").value(hasItem(DEFAULT_STATEMENT_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY)))
+            .andExpect(jsonPath("$.[*].createdDate").value(hasItem(DEFAULT_CREATED_DATE.toString())));
 
         // Check, that the count call also returns 1
         restBankStatementMockMvc.perform(get("/api/bank-statements/count?sort=id,desc&" + filter))

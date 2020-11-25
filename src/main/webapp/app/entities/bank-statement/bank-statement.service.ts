@@ -34,6 +34,7 @@ export class BankStatementService {
     const copy: IBankStatement = Object.assign({}, bankStatement, {
       validatedDate:
         bankStatement.validatedDate && bankStatement.validatedDate.isValid() ? bankStatement.validatedDate.toJSON() : undefined,
+      createdDate: bankStatement.createdDate && bankStatement.createdDate.isValid() ? bankStatement.createdDate.toJSON() : undefined,
     });
     return copy;
   }
@@ -41,6 +42,7 @@ export class BankStatementService {
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.validatedDate = res.body.validatedDate ? moment(res.body.validatedDate) : undefined;
+      res.body.createdDate = res.body.createdDate ? moment(res.body.createdDate) : undefined;
     }
     return res;
   }
@@ -49,6 +51,7 @@ export class BankStatementService {
     if (res.body) {
       res.body.forEach((bankStatement: IBankStatement) => {
         bankStatement.validatedDate = bankStatement.validatedDate ? moment(bankStatement.validatedDate) : undefined;
+        bankStatement.createdDate = bankStatement.createdDate ? moment(bankStatement.createdDate) : undefined;
       });
     }
     return res;
